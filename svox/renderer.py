@@ -253,6 +253,7 @@ class VolumeRenderer(nn.Module):
 
                 subcube_tmin, subcube_tmax = dda_unit(pos_t, invdirs)
 
+                # self.step_size所设定的最小step size，避免(subcube_tmax - subcube_tmin)直接为0
                 delta_t = (subcube_tmax - subcube_tmin) * cube_sz + self.step_size
                 att = torch.exp(- delta_t * torch.relu(rgba[..., -1]) * delta_scale[good_indices])
                 weight = light_intensity[good_indices] * (1.0 - att)
